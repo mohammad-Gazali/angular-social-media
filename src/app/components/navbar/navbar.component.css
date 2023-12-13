@@ -2,3 +2,23 @@ mat-toolbar {
     display: flex;
     justify-content: space-between;
 }
+
+mat-toolbar .brand {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+}
+
+mat-toolbar .links {
+    display: flex;
+    gap: .8rem;
+}
+
+@media (max-width: 500px) {
+    .brand h1 {
+        display: none;
+    }
+}

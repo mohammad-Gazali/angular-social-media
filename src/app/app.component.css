@@ -1,0 +1,12 @@
+main {
+    padding: 2rem 1rem;
+}
+
+mat-drawer-container {
+    height: 100vh;
+}
+
+mat-drawer {
+    min-width: 300px;
+    max-width: 100vw;
+}

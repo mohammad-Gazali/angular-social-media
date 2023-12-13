@@ -1,0 +1,7 @@
+
+@if (supabase.user === null) {
+    <p>Welcome to Angular Social Media</p>
+} @else {
+    <img width="100" src="{{ supabase.user.image }}" alt="{{ supabase.user.name }}">
+    <p>Hello {{ supabase.user.name }}</p>
+}

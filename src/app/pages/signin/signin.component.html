@@ -1,0 +1,39 @@
+<div class="main-container">
+    <h1 class="header-text">Sign In</h1>
+    <form [formGroup]="signInForm" (ngSubmit)="onSubmit()">
+        <mat-form-field>
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="email" type="email" placeholder="example@gmail.com" required>
+            <mat-error [hidden]="email?.invalid">
+                @if (email?.hasError('email')) {
+                    email is not valid.
+                } @else {
+                    email field is required.
+                }
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Password</mat-label>
+            <input matInput formControlName="password" type="password" required>
+            <mat-error [hidden]="password?.invalid">
+                @if (password?.hasError('minlength')) {
+                    password must be at least {{ password?.getError('minlength').requiredLength }} characters.
+                } @else {
+                    password field is required.
+                }
+            </mat-error>
+        </mat-form-field>
+        <button [disabled]="signInForm.invalid || loading" mat-raised-button color="primary">        
+            <mat-icon>login</mat-icon>
+            Sign In
+        </button>
+        <div class="bottom-text">
+            Don't have an account ? <a mat-flat-button color="accent" routerLink="/signup">Create one</a>
+        </div>
+        @if (loading) {
+            <div class="spinner-container">
+                <mat-spinner diameter="40"></mat-spinner>
+            </div>
+        }
+    </form>
+</div>

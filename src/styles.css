@@ -2,3 +2,8 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.header-text {
+    font-weight: 300 !important;
+    font-size: 2rem !important;
+}

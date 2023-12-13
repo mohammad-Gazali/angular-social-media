@@ -1,2 +1,11 @@
-<app-navbar></app-navbar>
-<router-outlet></router-outlet>
+<mat-drawer-container hasBackdrop="true" autosize>
+    <mat-drawer autoFocus="false" #drawer>
+        <app-sidenav-content></app-sidenav-content>
+    </mat-drawer>
+    <header>
+        <app-navbar></app-navbar>
+    </header>
+    <main>
+        <router-outlet></router-outlet>
+    </main>
+</mat-drawer-container>

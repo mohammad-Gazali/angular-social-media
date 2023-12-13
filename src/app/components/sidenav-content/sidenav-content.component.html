@@ -1,0 +1,25 @@
+<mat-action-list>
+    <div mat-list-item>
+        <div class="mat-list-item-content">
+            <h2>
+                Angular Social Media
+            </h2>
+            <button mat-icon-button (click)="layout.closeSidenav()">
+                <mat-icon>close</mat-icon>
+            </button>
+        </div>
+    </div>
+    <mat-divider></mat-divider>
+    <a mat-list-item (click)="layout.closeSidenav()" routerLink="/">
+        <div class="mat-list-item-content">
+            <mat-icon>home</mat-icon>
+            <span>Home</span>
+        </div>
+    </a>
+    <a mat-list-item (click)="layout.closeSidenav()" routerLink="/signin">
+        <div class="mat-list-item-content">
+            <mat-icon>person</mat-icon>
+            <span>Sign in</span>
+        </div>
+    </a>
+</mat-action-list>
