@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, effect, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -7,7 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { Router, RouterLink } from '@angular/router';
-import { SupabaseService } from '../../services/supabase.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-signup',
@@ -27,14 +27,20 @@ import { SupabaseService } from '../../services/supabase.service';
 })
 export class SignupComponent {
   signUpForm!: FormGroup;
-  loading = false;
+  loading = signal(false);
 
   constructor(
     private fb: FormBuilder,
-    private supabase: SupabaseService,
+    private auth: AuthService,
     private snackbar: MatSnackBar,
     private router: Router,
-  ) {}
+  ) {
+    effect(() => {
+      if (this.auth.user() !== null) {
+        this.router.navigateByUrl('/')
+      }
+    })
+  }
 
   ngOnInit() {
     this.signUpForm = this.fb.group({
@@ -45,34 +51,34 @@ export class SignupComponent {
   }
 
   async onSubmit() {
-    this.loading = true;
+    this.loading.set(true);
 
     const formValue = this.signUpForm.value;
 
     try {
-      const result = await this.supabase.signUp(formValue);
+      const result = await this.auth.signUp(formValue);
       if (result.error !== null) {
-        this.snackbar.open(result.error.message, 'close');
+        this.snackbar.open(result.error.message, 'close', { duration: 7000 });
       } else {
-        this.snackbar.open('Created user successfuly, please verfiy your email.', 'close');
+        this.snackbar.open('Created user successfuly, please verfiy your email.', 'close', { duration: 7000 });
         this.router.navigateByUrl('/')
       }
     } catch (error) {
-      this.snackbar.open(String(error), 'close');
+      this.snackbar.open(String(error), 'close', { duration: 7000 });
     }
 
-    this.loading = false;
+    this.loading.set(false);
   }
 
   get name() {
-    return this.signUpForm.get("name")
+    return this.signUpForm.get('name');
   }
 
   get email() {
-    return this.signUpForm.get("email");
+    return this.signUpForm.get('email');
   }
 
   get password() {
-    return this.signUpForm.get("password");
+    return this.signUpForm.get('password');
   }
 }

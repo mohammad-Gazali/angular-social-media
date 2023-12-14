@@ -1,17 +1,17 @@
 import { Component, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
-import { NavbarComponent } from "./components/navbar/navbar.component";
+import { NavbarComponent } from './components/navbar/navbar.component';
 import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
 import { LayoutService } from './services/layout.service';
-import { SidenavContentComponent } from "./components/sidenav-content/sidenav-content.component";
+import { SidenavContentComponent } from './components/sidenav-content/sidenav-content.component';
 
 
 @Component({
-    selector: "app-root",
+    selector: 'app-root',
     standalone: true,
-    templateUrl: "./app.component.html",
-    styleUrl: "./app.component.css",
+    templateUrl: './app.component.html',
+    styleUrl: './app.component.css',
     imports: [CommonModule, RouterOutlet, NavbarComponent, MatSidenavModule, SidenavContentComponent]
 })
 export class AppComponent {

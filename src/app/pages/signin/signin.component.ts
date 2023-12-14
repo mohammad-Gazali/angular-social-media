@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, effect, signal } from '@angular/core';
 import {
   ReactiveFormsModule,
   FormBuilder,
@@ -11,8 +11,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
-import { SupabaseService } from '../../services/supabase.service';
 import { Router, RouterLink } from '@angular/router'
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-signin',
@@ -32,14 +32,20 @@ import { Router, RouterLink } from '@angular/router'
 })
 export class SigninComponent {
   signInForm!: FormGroup;
-  loading = false;
+  loading = signal(false);
 
   constructor(
     private fb: FormBuilder,
-    private supabase: SupabaseService,
+    private auth: AuthService,
     private snackbar: MatSnackBar,
-    private router: Router,
-  ) {}
+    router: Router,
+  ) {
+    effect(() => {
+      if (this.auth.user() !== null) {
+        router.navigateByUrl('/')
+      }
+    })
+  }
 
   ngOnInit() {
     this.signInForm = this.fb.group({
@@ -49,23 +55,22 @@ export class SigninComponent {
   }
 
   async onSubmit() {
-    this.loading = true;
+    this.loading.set(true);
 
     const formValue = this.signInForm.value;
 
     try {
-      const result = await this.supabase.signIn(formValue);
+      const result = await this.auth.signIn(formValue);
       if (result.error !== null) {
-        this.snackbar.open(result.error.message, 'close');
+        this.snackbar.open(result.error.message, 'close', { duration: 7000 });
       } else {
-        this.snackbar.open('Signed in successfuly', 'close');
-        this.router.navigateByUrl('/')
+        this.snackbar.open('Signed in successfuly', 'close', { duration: 7000 });
       }
     } catch (error) {
-      this.snackbar.open(String(error), 'close');
+      this.snackbar.open(String(error), 'close', { duration: 7000 });
     }
 
-    this.loading = false;
+    this.loading.set(false);
   }
 
   get email() {

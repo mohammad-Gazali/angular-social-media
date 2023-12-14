@@ -1,13 +1,13 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LayoutService {
-  private sideNav: MatSidenav | undefined;
-  public isSmall = false;
+  private sidenav = signal<MatSidenav | undefined>(undefined);
+  public isSmall = signal(false);
 
   constructor(breakpointObserver: BreakpointObserver) {
     breakpointObserver.observe([
@@ -15,26 +15,28 @@ export class LayoutService {
       Breakpoints.XSmall,
     ])
     .subscribe(result => {
-      this.isSmall = result.matches;
-      if (!this.isSmall) {
-        this.sideNav?.close();
+      this.isSmall.set(result.matches);
+      if (!result.matches) {
+        this.sidenav()?.close();
       }
     })
   }
 
   setSidenav(sidenav: MatSidenav): void {
-    this.sideNav = sidenav;
+    this.sidenav.set(sidenav);
   }
 
   openSidenav(): void {
-    if (this.sideNav && this.isSmall) {
-      this.sideNav.open();
+    const sidenav = this.sidenav();
+    if (sidenav !== undefined && this.isSmall()) {
+      sidenav.open();
     }
   }
 
   closeSidenav(): void {
-    if (this.sideNav && this.isSmall) {
-      this.sideNav.close();
+    const sidenav = this.sidenav();
+    if (sidenav !== undefined && this.isSmall()) {
+      sidenav.close();
     }
   }
 }

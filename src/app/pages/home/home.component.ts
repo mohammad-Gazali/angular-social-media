@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { SupabaseService } from '../../services/supabase.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -9,5 +9,5 @@ import { SupabaseService } from '../../services/supabase.service';
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
-  constructor(public supabase: SupabaseService) {}
+  constructor(public auth: AuthService) {}
 }

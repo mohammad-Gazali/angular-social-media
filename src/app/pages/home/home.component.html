@@ -1,7 +1,7 @@
 
-@if (supabase.user === null) {
+@if (auth.user() === null) {
     <p>Welcome to Angular Social Media</p>
 } @else {
-    <img width="100" src="{{ supabase.user.image }}" alt="{{ supabase.user.name }}">
-    <p>Hello {{ supabase.user.name }}</p>
+    <img width="100" src="{{ auth.user()?.image }}" alt="{{ auth.user()?.name }}">
+    <p>Hello {{ auth.user()?.name }}</p>
 }

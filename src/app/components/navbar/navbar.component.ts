@@ -1,12 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { RouterLink } from '@angular/router';
 import { LayoutService } from '../../services/layout.service';
-import { SupabaseService } from '../../services/supabase.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -16,26 +16,26 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrl: './navbar.component.css'
 })
 export class NavbarComponent {
-  loading = false;
+  loading = signal(false);
 
-  constructor(public layout: LayoutService, public supabase: SupabaseService, private snackbar: MatSnackBar) {}
+  constructor(public layout: LayoutService, public auth: AuthService, private snackbar: MatSnackBar) {}
 
   signOut() {
-    this.loading = true;
+    this.loading.set(true);
 
-    this.supabase.signOut()
+    this.auth.signOut()
     .then(({error}) => {
       if (error !== null) {
-        this.snackbar.open(error.message, "close")
+        this.snackbar.open(error.message, 'close', { duration: 7000 })
       } else {
-        this.snackbar.open("Signed out successfully.", "close")
+        this.snackbar.open('Signed out successfully.', 'close', { duration: 7000 })
       }
     })
     .catch(error => {
-      this.snackbar.open(String(error), "close")
+      this.snackbar.open(String(error), 'close', { duration: 7000 })
     })
     .finally(() => {
-      this.loading = false
+      this.loading.set(false);
     })
   }
 }

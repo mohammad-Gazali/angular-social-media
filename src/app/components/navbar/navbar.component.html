@@ -3,17 +3,17 @@
         <img width="40" height="40" src="/assets/angular.svg" alt="logo">
         <h1>Angular Social Media</h1>
     </a>
-    @if (layout.isSmall) {
+    @if (layout.isSmall()) {
         <button mat-icon-button (click)="layout.openSidenav()">
             <mat-icon>menu</mat-icon>
         </button>
     } @else {
         <div class="links">
             <a mat-button routerLink="/" routerLinkActive="active">Home</a>
-            @if (supabase.user === null) {
+            @if (auth.user() === null) {
                 <a mat-stroked-button routerLink="/signin">Sign in</a>
             } @else {
-                <button mat-stroked-button [disabled]="loading" (click)="signOut()">Sign out</button>
+                <button mat-stroked-button [disabled]="loading()" (click)="signOut()">Sign out</button>
             }
         </div>
     }

@@ -23,14 +23,14 @@
                 }
             </mat-error>
         </mat-form-field>
-        <button [disabled]="signInForm.invalid || loading" mat-raised-button color="primary">        
+        <button [disabled]="signInForm.invalid || loading()" mat-raised-button color="primary">        
             <mat-icon>login</mat-icon>
             Sign In
         </button>
         <div class="bottom-text">
             Don't have an account ? <a mat-flat-button color="accent" routerLink="/signup">Create one</a>
         </div>
-        @if (loading) {
+        @if (loading()) {
             <div class="spinner-container">
                 <mat-spinner diameter="40"></mat-spinner>
             </div>

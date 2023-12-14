@@ -16,10 +16,19 @@
             <span>Home</span>
         </div>
     </a>
-    <a mat-list-item (click)="layout.closeSidenav()" routerLink="/signin">
-        <div class="mat-list-item-content">
-            <mat-icon>person</mat-icon>
-            <span>Sign in</span>
-        </div>
-    </a>
+    @if (auth.user() === null) {
+        <a mat-list-item (click)="layout.closeSidenav()" routerLink="/signin">
+            <div class="mat-list-item-content">
+                <mat-icon>person</mat-icon>
+                <span>Sign in</span>
+            </div>
+        </a>
+    } @else {
+        <button mat-list-item [disabled]="loading()" (click)="signOut()">
+            <div class="mat-list-item-content">
+                <mat-icon>logout</mat-icon>
+                <span>Sign out</span>
+            </div>
+        </button>
+    }
 </mat-action-list>
