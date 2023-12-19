@@ -1,6 +1,6 @@
 import { Injectable, signal } from '@angular/core';
 import { SupabaseService } from './supabase.service';
-import { User } from '@supabase/supabase-js';
+import { User } from '../../types';
 
 interface Credentials {
   email: string;
@@ -11,7 +11,7 @@ interface Credentials {
   providedIn: 'root'
 })
 export class AuthService {
-  public user = signal<User & { name: string; image: string } | null>(null);
+  public user = signal<User | null>(null);
 
   constructor(private supabase: SupabaseService) {
     this.supabase.client.auth.onAuthStateChange((_, session) => {
@@ -19,7 +19,7 @@ export class AuthService {
         this.user.set({
           ...session.user,
           name: session.user.user_metadata['name'],
-          image: `https://api.dicebear.com/7.x/identicon/svg?seed=${session.user.id}`
+          image: this.getImageUrl(session.user.id),
         });
       } else {
         this.user.set(null)
@@ -45,5 +45,9 @@ export class AuthService {
 
   signOut() {
     return this.supabase.client.auth.signOut()
+  }
+
+  getImageUrl(userId: string) {
+    return `https://api.dicebear.com/7.x/identicon/svg?seed=${userId}`
   }
 }

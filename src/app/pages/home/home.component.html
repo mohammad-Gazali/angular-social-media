@@ -1,7 +1,8 @@
-
-@if (auth.user() === null) {
-    <p>Welcome to Angular Social Media</p>
-} @else {
-    <img width="100" src="{{ auth.user()?.image }}" alt="{{ auth.user()?.name }}">
-    <p>Hello {{ auth.user()?.name }}</p>
-}
+<div class="grid">
+    @if (auth.user() === null) {
+        <p>Welcome to Angular Social Media</p>
+    } @else {
+        <app-create-post></app-create-post>
+        <app-post-list></app-post-list>
+    }
+</div>

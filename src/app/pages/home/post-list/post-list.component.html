@@ -1,0 +1,49 @@
+
+@if (!postService.fetched()) {
+    <div class="spinner-container">
+        <mat-spinner diameter="40"></mat-spinner>
+    </div>
+} @else {
+    <ul>
+        @for (post of postService.fetchedPosts(); track post.id) {
+            <li>
+                <mat-card>
+                    <mat-card-header>
+                        <div class="user-info">
+                            <img class="personal" [src]="auth.getImageUrl(post.author)" [alt]="post.authorName">
+                            <div>
+                                <strong>{{ post.authorName }}</strong>
+                                <mat-card-subtitle>{{ post.createdAt | date }}</mat-card-subtitle>
+                            </div>
+                        </div>
+                        @if (post.imagesUrls?.length) {
+                            @if (post.imagesUrls?.length === 1) {
+                                <img class="post-image" [src]="post.imagesUrls![0].image" [alt]="post.imagesUrls![0].alt">
+                            } @else {
+                                <div>
+                                    <ng-image-slider [images]="post.imagesUrls!"></ng-image-slider>
+                                </div>
+                            }
+                        }
+                    </mat-card-header>
+                    <mat-card-content>
+                        <p>{{ post.text }}</p>
+                        <div class="card-bottom">
+                            <div>
+                                {{ post.likes }} likes, {{ post.comments }} comments
+                            </div>
+                            <div>
+                                <button mat-icon-button>
+                                    <mat-icon>thumb_up</mat-icon>
+                                </button>
+                                <button mat-icon-button>
+                                    <mat-icon>comment</mat-icon>
+                                </button>
+                            </div>
+                        </div>
+                    </mat-card-content>
+                </mat-card>
+            </li>
+        }
+    </ul>
+}

@@ -1,0 +1,21 @@
+mat-card {
+    position: sticky;
+    top: 1rem;
+}
+
+form {
+    margin-top: 1.7rem;
+    display: flex;
+    flex-direction: column;
+}
+
+file-uploader {
+    margin-top: 0.5rem;
+    margin-bottom: 1.6rem;
+}
+
+.spinner-container {
+    margin: 0 auto;
+    margin-top: 2rem;
+    width: fit-content;
+}
